@@ -102,7 +102,7 @@ export default class CustomMultiPicker extends Component {
     const labels = Object.keys(list).map(i => list[i])
     const values = Object.keys(list)
     return(
-      <View onLayout={(evt)=>{this.getNewDimensions(evt)}}>
+      <View>
         {this.props.search && <View style={{ flexDirection: 'row', height: 55 }}>
           <View style={{ marginTop: 15, marginLeft: 15, backgroundColor: 'transparent' }}>
             <Icon name="ios-search-outline" color={this.props.iconColor} size={25}/>
@@ -128,14 +128,14 @@ export default class CustomMultiPicker extends Component {
           />
         </View>}
         <ScrollView
-          style={{ padding: 5, height: this.props.scrollViewHeight }}
+          style={[{ padding: 5, height: this.props.scrollViewHeight }, this.props.scrollViewStyle]}
         >
           {labels.map((label, index) => {
             const itemKey = returnValue == "label" ? label : values[index]
             return(
               <TouchableOpacity
                 key={Math.round(Math.random() * 1000000)}
-                style={{
+                style={[{
                   padding: 7,
                   marginTop: 0,
                   marginLeft: 2,
@@ -147,7 +147,9 @@ export default class CustomMultiPicker extends Component {
                   justifyContent: 'space-between',
                   alignItems: 'center',
                   borderRadius: this.props.rowRadius
-                }}
+                },
+                  this.props.itemStyle
+                ]}
                 onPress={() => {
                   this._onSelect(itemKey)
                 }}
@@ -156,9 +158,13 @@ export default class CustomMultiPicker extends Component {
                 {
 
                   this._isSelected(itemKey) ?
-                  <Icon name={this.props.selectedIconName} color={this.props.iconColor} size={this.props.iconSize} />
+                  <Icon name={this.props.selectedIconName}
+                        style={[{color: this.props.iconColor, fontSize: this.props.iconSize}, this.props.selectedIconStyle]}
+                        />
                   :
-                  <Icon name={this.props.unselectedIconName} color={this.props.iconColor} size={this.props.iconSize} />
+                  <Icon name={this.props.unselectedIconName}
+                        style={[{color: this.props.iconColor, fontSize: this.props.iconSize}, this.props.unselectedIconStyle]}
+                        />
                 }
               </TouchableOpacity>
             )
